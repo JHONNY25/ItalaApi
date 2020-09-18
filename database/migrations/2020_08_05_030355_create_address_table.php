@@ -17,7 +17,7 @@ class CreateAddressTable extends Migration
             $table->id();
             $table->string('street');
             $table->string('colony');
-            $table->string('cuntry');
+            $table->string('country');
             $table->string('postcard_code');
             $table->unsignedInteger('user_id');
             $table->timestamps();
