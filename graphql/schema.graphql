@@ -1,0 +1,210 @@
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+type Query {
+    users: [User!]! @paginate(defaultCount: 10)
+    user(id: ID @eq): User @find
+
+    products: [Products!]! @paginate(defaultCount: 10)
+    products(id: ID @eq): Products! @find
+
+    purchases: [Purchases!]! @paginate(defaultCount: 10)
+    purchase(user_id: ID @eq): Purchases! @all
+
+    address(user_id: ID @eq): Address! @all
+
+    payments_methods_user(user_id: ID @eq): PaymentsMethodsUser! @all
+
+    shopping_cart(user_id: ID @eq): ShoppingCart! @all
+}
+
+type ShoppingCart{
+    id: ID!
+    user_id: User @belongsTo
+    products_in_cart: ProductsInCart @hasMany
+}
+
+input ShoppingCartInput{
+    user_id: ID!
+}
+
+type Address{
+    id: ID!
+    street: String!
+    colony: String!
+    country: String!
+    postcard_code: String!
+    user: User @belongsTo
+}
+
+input AddressInput{
+    street: String!
+    colony: String!
+    country: String!
+    postcard_code: String!
+    user_id: ID!
+}
+
+type Categories{
+    id: ID!
+    name: String!
+    description: String!
+}
+
+input CategoriesInput{
+    name: String!
+    description: String!
+}
+
+type Files{
+    id: ID!
+    name: String!
+    path: String!
+    uuid: String!
+    hash: String!
+}
+
+input FilesInput{
+    name: String!
+    path: String!
+    uuid: String!
+    hash: String!
+}
+
+type PaymentMethod{
+    id: ID!
+    name: String!
+    type: Int!
+}
+
+input PaymentMethodInput{
+    name: String!
+    type: Int!
+}
+
+type PaymentsMethodsUser{
+    id: ID!
+    payment_method_id: PaymentMethod! @belongsTo
+    user_id: User! @belongsTo
+    card_number: String!
+    name_number: String!
+}
+
+input PaymentsMethodsUserInput{
+    payment_method_id: ID!
+    user_id: ID!
+    card_number: String!
+    name_number: String!
+}
+
+type Products{
+    id: ID!
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    file_id: Files! @belongsTo
+    product_comments: [ProductComments!]! @hasMany
+    product_score: [ProductScore!]! @hasMany
+}
+
+input ProductInput{
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    file_id: ID!
+}
+
+type ProductComments{
+    id: ID!
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    comment: String!
+}
+
+input ProductCommentsInput{
+    product_id: ID!
+    user_id: ID!
+    comment: String!
+}
+
+type ProductScore{
+    id: ID!
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    score: Int!
+}
+
+input ProductScoreInput{
+    product_id: ID!
+    user_id: ID!
+    score: Int!
+}
+
+type ProductsInCart{
+    id: ID!
+    shopping_car_id: ShoppingCart! @belongsTo
+    product_id: Products! @belongsTo
+    quantity: Int!
+}
+
+input ProductsInCartInput{
+    shopping_car_id: ID!
+    product_id: ID!
+    quantity: Int!
+}
+
+type Purchases{
+    id: ID!
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    payments_methods_user_id: PaymentsMethodsUser! @belongsTo
+    price: Float!
+    quantity: Int!
+    purchases_date: Date!
+}
+
+input PurchasesInput{
+    product_id: ID!
+    user_id: ID!
+    payments_methods_user_id: ID!
+    price: Float!
+    quantity: Int!
+    purchases_date: Date!
+}
+
+extend type Mutation{
+    createProduct(input: ProductInput! @spread): Products @create
+    updateProduct(id: ID!,content: ProductInput! @spread): Products @update
+    deleteProduct(id: ID!): Products @delete
+
+    createProductComment(input: ProductCommentsInput! @spread): ProductComments @create
+    updateProductComment(id: ID!,content: ProductCommentsInput! @spread): ProductComments @update
+
+    createProductScore(input: ProductScoreInput! @spread): ProductScore @create
+    updateProductScore(id: ID!,content: ProductScoreInput! @spread): ProductScore @update
+
+    createShoppingCart(input: ShoppingCartInput! @spread): ShoppingCart @create
+
+    createProductsInCart(input: ProductsInCartInput! @spread): ProductsInCart @create
+    deleteProductsInCart(id: ID!): ProductsInCart @delete
+
+    createPurchase(input: PurchasesInput! @spread): Purchases @create
+
+    createCategory(input: CategoriesInput! @spread): Categories @create
+    updateCategory(id: ID!,content: CategoriesInput! @spread): Categories @update
+    deleteCategory(id: ID!): Categories @delete
+
+    createPaymentsMethodsUser(input: PaymentsMethodsUserInput! @spread): PaymentsMethodsUser @create
+    updatePaymentsMethodsUser(id: ID!,content: PaymentsMethodsUserInput! @spread): PaymentsMethodsUser @update
+    deletePaymentsMethodsUser(id: ID!): PaymentsMethodsUser @delete
+
+    createAddress(input: AddressInput! @spread): Address @create
+    updateAddress(id: ID!,content: AddressInput! @spread): Address @update
+    deleteAddress(id: ID!): Address @delete
+}
+
