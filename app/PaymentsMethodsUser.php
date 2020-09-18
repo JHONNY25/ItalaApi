@@ -16,4 +16,12 @@ class PaymentsMethodsUser extends Model
     ];
 
     use SoftDeletes;
+
+    public function paymentMethod(){
+        $this->belongsTo(PaymentMethod::class);
+    }
+
+    public function user(){
+        $this->belongsTo(User::class);
+    }
 }
