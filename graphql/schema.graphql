@@ -7,12 +7,88 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
     users: [User!]! @paginate(defaultCount: 10)
     user(id: ID @eq): User @find
+
+    products: [Products!]! @paginate(defaultCount: 10)
+    products(id: ID @eq): Products! @find
 }
 
 type User {
     id: ID!
     first_name: String!
+    last_name: String!
     email: String!
     created_at: DateTime!
     updated_at: DateTime!
 }
+
+type ShoppingCart{
+    user_id: User @belongsTo
+}
+
+type Address{
+    street: String!
+    colony: String!
+    country: String!
+    postcard_code: String!
+    user_id: User @belongsTo
+}
+
+type Categories{
+    name: String!
+    description: String!
+}
+
+type Files{
+    name: String!
+    path: String!
+    uuid: String!
+    hash: String!
+}
+
+type PaymentMethod{
+    name: String!
+    type: Int!
+}
+
+type PaymentsMethodsUser{
+    payment_method_id: PaymentMethod! @belongsTo
+    user_id: User! @belongsTo
+    card_number: String!
+    name_number: String!
+}
+
+type Products{
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    file_id: Files! @belongsTo
+}
+
+type ProductComments{
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    comment: String!
+}
+
+type ProductScore{
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    score: Int!
+}
+
+type ProductsInCart{
+    shopping_car_id: ShoppingCart! @belongsTo
+    product_id: Products! @belongsTo
+    quantity: Int!
+}
+
+type Purchses{
+    product_id: Products! @belongsTo
+    user_id: User! @belongsTo
+    payments_methods_user_id: PaymentsMethodsUser! @belongsTo
+    price: Float!
+    quantity: Int!
+    purchases_date: Date!
+}
+
