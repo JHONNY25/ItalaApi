@@ -10,6 +10,15 @@ type Query {
 
     products: [Products!]! @paginate(defaultCount: 10)
     products(id: ID @eq): Products! @find
+
+    purchases: [Purchases!]! @paginate(defaultCount: 10)
+    purchase(user_id: ID @eq): Purchases! @all
+
+    address(user_id: ID @eq): Address! @all
+
+    payments_methods_user(user_id: ID @eq): PaymentsMethodsUser! @all
+
+    shopping_cart(user_id: ID @eq): ShoppingCart! @all
 }
 
 type User {
@@ -23,6 +32,7 @@ type User {
 
 type ShoppingCart{
     user_id: User @belongsTo
+    products_in_cart: ProductsInCart @hasMany
 }
 
 type Address{
@@ -63,6 +73,8 @@ type Products{
     quantity: Int!
     price: Float!
     file_id: Files! @belongsTo
+    product_comments: [ProductComments!]! @hasMany
+    product_score: [ProductScore!]! @hasMany
 }
 
 type ProductComments{
@@ -83,7 +95,7 @@ type ProductsInCart{
     quantity: Int!
 }
 
-type Purchses{
+type Purchases{
     product_id: Products! @belongsTo
     user_id: User! @belongsTo
     payments_methods_user_id: PaymentsMethodsUser! @belongsTo
