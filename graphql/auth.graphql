@@ -10,7 +10,10 @@ input RefreshTokenInput {
 type User {
     id: ID!
     first_name: String!
+    last_name: String!
     email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 
 type AuthPayload {
