@@ -1,0 +1,23 @@
+
+type Address{
+    id: ID!
+    street: String!
+    colony: String!
+    country: String!
+    postcard_code: String!
+    user: User @belongsTo
+}
+
+input AddressInput{
+    street: String!
+    colony: String!
+    country: String!
+    postcard_code: String!
+    user_id: ID!
+}
+
+extend type Mutation{
+    createAddress(input: AddressInput! @spread): Address @create
+    updateAddress(id: ID!,content: AddressInput! @spread): Address @update
+    deleteAddress(id: ID!): Address @delete
+}
