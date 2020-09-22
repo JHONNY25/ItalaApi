@@ -1,0 +1,14 @@
+type Files{
+    id: ID!
+    name: String!
+    path: String!
+    uuid: String!
+    hash: String!
+}
+
+input FilesInput{
+    name: String!
+    path: String!
+    uuid: String!
+    hash: String!
+}
