@@ -1,0 +1,14 @@
+
+type ShoppingCart{
+    id: ID!
+    user: User @belongsTo
+    productsInCart: ProductsInCart @hasMany
+}
+
+input ShoppingCartInput{
+    user_id: ID!
+}
+
+extend type Mutation{
+    createShoppingCart(input: ShoppingCartInput! @spread): ShoppingCart @create
+}

@@ -16,7 +16,7 @@ class ProductsInCart extends Model
 
     use SoftDeletes;
 
-    public function shoopingcart(){
+    public function shoopingCart(){
         return $this->belongsTo(shoopingcart::class,'shopping_car_id');
     }
 

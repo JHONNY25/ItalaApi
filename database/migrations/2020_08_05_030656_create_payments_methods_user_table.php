@@ -13,7 +13,7 @@ class CreatePaymentsMethodsUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments_methods_user', function (Blueprint $table) {
+        Schema::create('user_payments_methods', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('payment_method_id');
             $table->unsignedInteger('user_id');
@@ -23,7 +23,7 @@ class CreatePaymentsMethodsUserTable extends Migration
             $table->softDeletes();
         });
 
-        Schema::table('payments_methods_user', function (Blueprint $table) {
+        Schema::table('user_payments_methods', function (Blueprint $table) {
             $table->foreign('payment_method_id')->references('id')->on('payment_method');
             $table->foreign('user_id')->references('id')->on('users');
         });
@@ -36,6 +36,6 @@ class CreatePaymentsMethodsUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments_methods_user');
+        Schema::dropIfExists('user_payments_methods');
     }
 }

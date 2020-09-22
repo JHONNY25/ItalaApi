@@ -1,0 +1,74 @@
+
+type Products{
+    id: ID!
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    file: Files! @belongsTo
+    category: Categories @belongsTo
+    productsComments: [ProductComments!]! @hasMany
+    productScore: [ProductScore!]! @hasMany
+}
+
+input ProductInput{
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    file_id: ID!
+}
+
+type ProductComments{
+    id: ID!
+    product: Products! @belongsTo
+    user: User! @belongsTo
+    comment: String!
+}
+
+input ProductCommentsInput{
+    product_id: ID!
+    user_id: ID!
+    comment: String!
+}
+
+type ProductScore{
+    id: ID!
+    product: Products! @belongsTo
+    user: User! @belongsTo
+    score: Int!
+}
+
+input ProductScoreInput{
+    product_id: ID!
+    user_id: ID!
+    score: Int!
+}
+
+type ProductsInCart{
+    id: ID!
+    shoopingCart: ShoppingCart! @belongsTo
+    product: Products! @belongsTo
+    quantity: Int!
+}
+
+input ProductsInCartInput{
+    shopping_car_id: ID!
+    product_id: ID!
+    quantity: Int!
+}
+
+extend type Mutation{
+    createProduct(input: ProductInput! @spread): Products @create
+    updateProduct(id: ID!,content: ProductInput! @spread): Products @update
+    deleteProduct(id: ID!): Products @delete
+
+    createProductComment(input: ProductCommentsInput! @spread): ProductComments @create
+    updateProductComment(id: ID!,content: ProductCommentsInput! @spread): ProductComments @update
+
+    createProductScore(input: ProductScoreInput! @spread): ProductScore @create
+    updateProductScore(id: ID!,content: ProductScoreInput! @spread): ProductScore @update
+
+    createProductsInCart(input: ProductsInCartInput! @spread): ProductsInCart @create
+    deleteProductsInCart(id: ID!): ProductsInCart @delete
+}

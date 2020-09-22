@@ -1,0 +1,21 @@
+
+type UserPaymentsMethods{
+    id: ID!
+    paymentMethod: PaymentMethod! @belongsTo
+    user: User! @belongsTo
+    card_number: String!
+    name_number: String!
+}
+
+input UserPaymentsMethodsInput{
+    payment_method_id: ID!
+    user_id: ID!
+    card_number: String!
+    name_number: String!
+}
+
+extend type Mutation{
+    createUserPaymentsMethods(input: UserPaymentsMethodsInput! @spread): UserPaymentsMethods @create
+    updateUserPaymentsMethods(id: ID!,content: UserPaymentsMethodsInput! @spread): UserPaymentsMethods @update
+    deleteUserPaymentsMethods(id: ID!): UserPaymentsMethods @delete
+}

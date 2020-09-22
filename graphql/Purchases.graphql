@@ -1,0 +1,28 @@
+type Query {
+    purchases: [Purchases!]! @paginate(defaultCount: 10)
+    purchase(user_id: ID @eq): Purchases! @all
+}
+
+type Purchases{
+    id: ID!
+    product: Products! @belongsTo
+    user: User! @belongsTo
+    userPaymentsMethods: UserPaymentsMethods! @belongsTo
+    price: Float!
+    quantity: Int!
+    purchases_date: Date!
+}
+
+input PurchasesInput{
+    product_id: ID!
+    user_id: ID!
+    payments_methods_user_id: ID!
+    price: Float!
+    quantity: Int!
+    purchases_date: Date!
+}
+
+extend type Mutation{
+    createPurchase(input: PurchasesInput! @spread): Purchases @create
+
+}

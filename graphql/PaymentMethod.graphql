@@ -1,0 +1,16 @@
+type PaymentMethod{
+    id: ID!
+    name: String!
+    type: Int!
+}
+
+input PaymentMethodInput{
+    name: String!
+    type: Int!
+}
+
+extend type Mutation{
+    createPaymentsMethods(input: PaymentMethodInput! @spread): PaymentMethod @create
+    updatePaymentsMethods(id: ID!,content: PaymentMethodInput! @spread): PaymentMethod @update
+    deletePaymentsMethods(id: ID!): PaymentMethod @delete
+}

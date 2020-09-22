@@ -26,4 +26,12 @@ class Products extends Model
     public function category(){
         return $this->belongsTo(Categories::class,'category_id');
     }
+
+    public function productsComments(){
+        return $this->hasMany(ProductComments::class,'product_id');
+    }
+
+    public function productScore(){
+        return $this->hasMany(ProductScore::class,'product_id');
+    }
 }
