@@ -1,0 +1,17 @@
+
+type Categories{
+    id: ID!
+    name: String!
+    description: String!
+}
+
+input CategoriesInput{
+    name: String!
+    description: String!
+}
+
+extend type Mutation{
+    createCategory(input: CategoriesInput! @spread): Categories @create
+    updateCategory(id: ID!,content: CategoriesInput! @spread): Categories @update
+    deleteCategory(id: ID!): Categories @delete
+}
