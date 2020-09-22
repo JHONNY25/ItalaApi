@@ -11,7 +11,7 @@ class Purchases extends Model
     protected $fillable = [
         'product_id',
         'user_id',
-        'payments_methods_user_id',
+        'user_payments_methods_id',
         'price',
         'quantity',
         'purchases_date',
@@ -19,8 +19,8 @@ class Purchases extends Model
 
     use SoftDeletes;
 
-    public function paymentsmethods(){
-        return $this->belongsTo(PaymentsMethodsUser::class,'payments_methods_user_id');
+    public function userPaymentsMethods(){
+        return $this->belongsTo(UserPaymentsMethods::class,'user_payments_methods_id');
     }
 
     public function product(){
