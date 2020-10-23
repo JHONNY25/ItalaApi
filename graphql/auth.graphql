@@ -9,8 +9,7 @@ input RefreshTokenInput {
 
 type User {
     id: ID!
-    first_name: String!
-    last_name: String!
+    name: String!
     email: String!
     created_at: DateTime!
     updated_at: DateTime!
