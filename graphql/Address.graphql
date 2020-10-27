@@ -1,11 +1,20 @@
 
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    address: [Address] @hasMany
+}
+
 type Address{
     id: ID!
     street: String!
     colony: String!
     country: String!
     postcard_code: String!
-    user: User @belongsTo
+    user: User! @belongsTo
 }
 
 input AddressInput{
@@ -13,11 +22,10 @@ input AddressInput{
     colony: String!
     country: String!
     postcard_code: String!
-    user_id: ID!
 }
 
-extend type Mutation{
-    createAddress(input: AddressInput! @spread): Address @create
+extend type Mutation @guard(with: ["api"]){
+    createAddress(input: AddressInput! @spread): Address @create @inject(context: "user.id", name: "user_id")
     updateAddress(id: ID!,content: AddressInput! @spread): Address @update
     deleteAddress(id: ID!): Address @delete
 }
