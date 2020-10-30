@@ -10,7 +10,7 @@ input CategoriesInput{
     description: String!
 }
 
-extend type Mutation{
+extend type Mutation @guard(with: ["api"]){
     createCategory(input: CategoriesInput! @spread): Categories @create
     updateCategory(id: ID!,content: CategoriesInput! @spread): Categories @update
     deleteCategory(id: ID!): Categories @delete
