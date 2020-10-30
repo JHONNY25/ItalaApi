@@ -15,14 +15,13 @@ type Purchases{
 
 input PurchasesInput{
     product_id: ID!
-    user_id: ID!
     payments_methods_user_id: ID!
     price: Float!
     quantity: Int!
     purchases_date: Date!
 }
 
-extend type Mutation{
-    createPurchase(input: PurchasesInput! @spread): Purchases @create
+extend type Mutation @guard(with: ["api"]){
+    createPurchase(input: PurchasesInput! @spread): Purchases @create @inject(context: "user.id",name: "user_id")
 
 }
