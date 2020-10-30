@@ -28,7 +28,6 @@ type ProductComments{
 
 input ProductCommentsInput{
     product_id: ID!
-    user_id: ID!
     comment: String!
 }
 
@@ -41,7 +40,6 @@ type ProductScore{
 
 input ProductScoreInput{
     product_id: ID!
-    user_id: ID!
     score: Int!
 }
 
@@ -58,15 +56,15 @@ input ProductsInCartInput{
     quantity: Int!
 }
 
-extend type Mutation{
+extend type Mutation @guard(with: ["api"]){
     createProduct(input: ProductInput! @spread): Products @create
     updateProduct(id: ID!,content: ProductInput! @spread): Products @update
     deleteProduct(id: ID!): Products @delete
 
-    createProductComment(input: ProductCommentsInput! @spread): ProductComments @create
+    createProductComment(input: ProductCommentsInput! @spread): ProductComments @create @inject(context: "user.id", name: "user_id")
     updateProductComment(id: ID!,content: ProductCommentsInput! @spread): ProductComments @update
 
-    createProductScore(input: ProductScoreInput! @spread): ProductScore @create
+    createProductScore(input: ProductScoreInput! @spread): ProductScore @create @inject(context: "user.id", name: "user_id")
     updateProductScore(id: ID!,content: ProductScoreInput! @spread): ProductScore @update
 
     createProductsInCart(input: ProductsInCartInput! @spread): ProductsInCart @create
