@@ -9,7 +9,7 @@ input PaymentMethodInput{
     type: Int!
 }
 
-extend type Mutation{
+extend type Mutation @guard(with: ["api"]){
     createPaymentsMethods(input: PaymentMethodInput! @spread): PaymentMethod @create
     updatePaymentsMethods(id: ID!,content: PaymentMethodInput! @spread): PaymentMethod @update
     deletePaymentsMethods(id: ID!): PaymentMethod @delete
