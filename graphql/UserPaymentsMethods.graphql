@@ -9,13 +9,12 @@ type UserPaymentsMethods{
 
 input UserPaymentsMethodsInput{
     payment_method_id: ID!
-    user_id: ID!
     card_number: String!
     name_number: String!
 }
 
-extend type Mutation{
-    createUserPaymentsMethods(input: UserPaymentsMethodsInput! @spread): UserPaymentsMethods @create
+extend type Mutation @guard(with: ["api"]){
+    createUserPaymentsMethods(input: UserPaymentsMethodsInput! @spread): UserPaymentsMethods @create @inject(context:"user.id",name:"user_id")
     updateUserPaymentsMethods(id: ID!,content: UserPaymentsMethodsInput! @spread): UserPaymentsMethods @update
     deleteUserPaymentsMethods(id: ID!): UserPaymentsMethods @delete
 }

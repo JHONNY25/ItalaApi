@@ -6,6 +6,8 @@ type User {
     created_at: DateTime!
     updated_at: DateTime!
     address: [Address] @hasMany
+    shopping_cart: [ShoppingCart] @hasMany
+    user_payments_methods: [UserPaymentsMethods] @hasMany
 }
 
 type Address{

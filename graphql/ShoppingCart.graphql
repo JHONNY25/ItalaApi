@@ -9,6 +9,6 @@ input ShoppingCartInput{
     user_id: ID!
 }
 
-extend type Mutation{
-    createShoppingCart(input: ShoppingCartInput! @spread): ShoppingCart @create
+extend type Mutation @guard(with: ["api"]){
+    createShoppingCart(input: ShoppingCartInput! @spread): ShoppingCart @create @inject(context: "user.id",name: "user_id")
 }
