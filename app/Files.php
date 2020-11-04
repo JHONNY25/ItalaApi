@@ -10,10 +10,12 @@ class Files extends Model
     protected $table = 'files';
     protected $fillable = [
         'name',
-        'path',
-        'uuid',
-        'hash',
+        'product_id'
     ];
 
     use SoftDeletes;
+
+    public function products(){
+        return $this->belongsTo(Products::class,'product_id');
+    }
 }
