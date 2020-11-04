@@ -13,14 +13,13 @@ class Products extends Model
         'description',
         'quantity',
         'price',
-        'file_id',
         'category_id',
     ];
 
     use SoftDeletes;
 
-    public function file(){
-        return $this->belongsTo(Files::class,'file_id');
+    public function files(){
+        return $this->hasMany(Files::class,'product_id');
     }
 
     public function category(){

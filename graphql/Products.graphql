@@ -5,7 +5,7 @@ type Products{
     description: String!
     quantity: Int!
     price: Float!
-    file: Files! @belongsTo
+    files: Files! @hasMany
     category: Categories @belongsTo
     productsComments: [ProductComments!]! @hasMany
     productScore: [ProductScore!]! @hasMany
