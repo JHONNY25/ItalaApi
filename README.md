@@ -1,2 +1,2 @@
 # ItalaApi
-Api development with laravel + lighthouse
+Api development with laravel + lighthouse (graphql)
